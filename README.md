@@ -1,8 +1,4 @@
 # DAO
-VIDEO TUTORIAL: https://www.youtube.com/watch?v=NjY-WA-jeJ8
-
-DOCUMENTO COMPARTIDO GOOGLE: https://docs.google.com/document/d/1qEw6swvyt1oWJzMKTnH7JmKSBLMLOb9oMXLF9bMzw0U/edit?usp=sharing
-
 
 ### **María B.: Gestión de Libros y Autores**
 
