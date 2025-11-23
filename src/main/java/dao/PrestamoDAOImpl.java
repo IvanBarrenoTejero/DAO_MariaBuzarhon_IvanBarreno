@@ -9,7 +9,7 @@ import java.util.List;
 public class PrestamoDAOImpl implements PrestamoDAO {
     @Override
     public void addPrestamo(Prestamo prestamo) throws SQLException {
-        String sql = "INSERT INTO prestamo (fechaInicio, fechaFin, usuarioId, libroId) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO Prestamo (fechaInicio, fechaFin, usuarioId, libroId) VALUES (?, ?, ?, ?)";
         try (Connection conn = ConnectionManager.getConnection();
             PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             ps.setDate(1, prestamo.getFechaInicio());
@@ -28,7 +28,7 @@ public class PrestamoDAOImpl implements PrestamoDAO {
 
     @Override
     public void updatePrestamo(Prestamo prestamo) throws SQLException {
-        String sql = "UPDATE prestamo SET fechaInicio = ?, fechaFIN = ?, usuarioId = ?, libroId = ? WHERE prestamoId = ?";
+        String sql = "UPDATE Prestamo SET fechaInicio = ?, fechaFIN = ?, usuarioId = ?, libroId = ? WHERE prestamoId = ?";
         try (Connection conn = ConnectionManager.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setDate(1, prestamo.getFechaInicio());
@@ -42,7 +42,7 @@ public class PrestamoDAOImpl implements PrestamoDAO {
 
     @Override
     public void deletePrestamo(int id) throws SQLException {
-        String sql =  "DELETE FROM prestamo WHERE prestamoId = ?";
+        String sql =  "DELETE FROM Prestamo WHERE id = ?";
         try (Connection conn = ConnectionManager.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)){
             ps.setInt(1, id);
@@ -52,7 +52,7 @@ public class PrestamoDAOImpl implements PrestamoDAO {
 
     @Override
     public Prestamo getPrestamoById(int id) throws SQLException {
-        String sql = "SELECT id, fechaInicio, fechaFin, usuarioId, libroId FROM prestamos WHERE id = ?";
+        String sql = "SELECT id, fechaInicio, fechaFin, usuarioId, libroId FROM Prestamo WHERE id = ?";
         try (Connection conn = ConnectionManager.getConnection();
             PreparedStatement ps = conn.prepareStatement(sql)){
             ps.setInt(1, id);
@@ -73,7 +73,7 @@ public class PrestamoDAOImpl implements PrestamoDAO {
 
     @Override
     public List<Prestamo> getAllPrestamos() throws SQLException {
-        String sql = "SELECT id, fechaInicio, fechaFin, usuarioId, LibroId FROM prestamo";
+        String sql = "SELECT id, fechaInicio, fechaFin, usuarioId, LibroId FROM Prestamo";
         List<Prestamo> prestamos = new ArrayList<>();
 
         try (Connection conn = ConnectionManager.getConnection();
@@ -94,7 +94,7 @@ public class PrestamoDAOImpl implements PrestamoDAO {
 
     @Override
     public List<Prestamo> getPrestamoByUsuario(int usuarioId) throws SQLException {
-        String sql = "SELECT id, fechaInicio, fechaFin, usuarioId, libroId FROM prestamo WHERE usuarioId = ?";
+        String sql = "SELECT id, fechaInicio, fechaFin, usuarioId, libroId FROM Prestamo WHERE usuarioId = ?";
         List<Prestamo> prestamos = new ArrayList<>();
 
         try(Connection conn = ConnectionManager.getConnection();
@@ -119,7 +119,7 @@ public class PrestamoDAOImpl implements PrestamoDAO {
     // Usamos curdate para que coja solo las que tengan las fecha actual entre sus fechas final e incial
     @Override
     public List<Prestamo> getPrestamosActivos() throws SQLException {
-        String sql = "SELECT id, fechaInicio, fechaFin, usuarioId, libroId FROM prestamo WHERE CURDATE() BETWEEN fechaInicio AND fechaFin";
+        String sql = "SELECT id, fechaInicio, fechaFin, usuarioId, libroId FROM Prestamo WHERE CURDATE() BETWEEN fechaInicio AND fechaFin";
         ArrayList<Prestamo> prestamos = new ArrayList<>();
 
         try (Connection conn = ConnectionManager.getConnection();

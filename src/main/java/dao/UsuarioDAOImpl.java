@@ -25,7 +25,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 
     @Override
     public void updateUsuario(Usuario usuario) throws SQLException {
-        String sql = "UPDATE usuario SET nombre = ? WHERE id = ?";
+        String sql = "UPDATE Usuario SET nombre = ? WHERE id = ?";
         try (Connection conn = ConnectionManager.getConnection();
             PreparedStatement ps = conn.prepareStatement(sql)){
             ps.setString(1, usuario.getNombre());
@@ -36,7 +36,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 
     @Override
     public void deleteUsuario(int id) throws SQLException {
-        String sql = "DELETE FROM usuario WHERE id = ?";
+        String sql = "DELETE FROM Usuario WHERE id = ?";
         try (Connection conn = ConnectionManager.getConnection();
             PreparedStatement ps = conn.prepareStatement(sql)){
             ps.setInt(1, id);
@@ -46,7 +46,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 
     @Override
     public Usuario getUsuarioById(int id) throws SQLException {
-        String sql = "SELECT id, nombre FROM usuario WHERE id = ?";
+        String sql = "SELECT id, nombre FROM Usuario WHERE id = ?";
         try (Connection conn = ConnectionManager.getConnection();
             PreparedStatement ps = conn.prepareStatement(sql)){
             ps.setInt(1, id);
@@ -61,7 +61,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 
     @Override
     public List<Usuario> getAllUsuarios() throws SQLException {
-        String sql = "SELECT id, nombre FROM usuario";
+        String sql = "SELECT id, nombre FROM Usuario";
         List<Usuario> usuarios = new ArrayList<>();
 
         try (Connection conn = ConnectionManager.getConnection();
