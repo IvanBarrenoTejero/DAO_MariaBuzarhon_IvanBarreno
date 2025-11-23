@@ -13,6 +13,7 @@ public class AutorDAOImpl implements AutorDAO {
     private static final String ACTUALIZAR_AUTOR = "UPDATE autor SET nombre = ? WHERE id = ?";
     private static final String ELIMINAR_AUTOR = "DELETE FROM autor WHERE id = ?";
 
+
     @Override
     public void addAutor(Autor autor) throws SQLException {
         try (Connection con = ConnectionManager.getConnection();

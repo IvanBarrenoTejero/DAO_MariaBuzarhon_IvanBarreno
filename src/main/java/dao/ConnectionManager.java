@@ -9,6 +9,7 @@ public class ConnectionManager {
     private static final String USER = "root";
     private static final String PASSWORD = "3112004";
 
+
     static {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");

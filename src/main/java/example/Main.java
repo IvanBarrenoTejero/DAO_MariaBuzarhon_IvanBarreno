@@ -76,6 +76,7 @@ public class Main {
                     var libros = servicio.listarLibros();
                     if (libros.isEmpty()) {
                         System.out.println("No hay libros disponibles.");
+
                     } else {
                         for (var libro : libros) {
                             System.out.print("ID=" + libro.getId() +

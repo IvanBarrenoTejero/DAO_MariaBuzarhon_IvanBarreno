@@ -48,7 +48,6 @@ public class LibroAutorDAOImpl implements LibroAutorDAO {
         }
         return autores;
     }
-
     @Override
     public List<Libro> obtenerLibrosPorAutor(int autorId) throws SQLException {
         List<Libro> libros = new ArrayList<>();

@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LibroDAOImpl implements LibroDAO {
-
     @Override
     public void addLibro(Libro libro) throws Exception {
         String sql = "INSERT INTO Libro (titulo, isbn) VALUES (?, ?)";
