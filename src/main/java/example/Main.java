@@ -204,6 +204,8 @@ public class Main {
             System.out.println("2. Listar préstamos");
             System.out.println("3. Buscar préstamo por ID");
             System.out.println("4. Eliminar préstamo");
+            System.out.println("5. Listar préstamos por usuario");
+            System.out.println("6. Listar préstamos activos");
             System.out.println("0. Volver");
             System.out.print("Opción: ");
             opcion = leerEntero("");
@@ -224,11 +226,26 @@ public class Main {
                     int id = leerEntero("ID del préstamo a eliminar: ");
                     servicio.deletePrestamo(id);
                 }
+
+                case 5 -> {
+                    int usuarioId = leerEntero("ID del usuario: ");
+                    var lista = servicio.getPrestamosByUsuario(usuarioId);
+                    if (lista.isEmpty()) System.out.println("No hay préstamos para este usuario.");
+                    else lista.forEach(System.out::println);
+                }
+
+                case 6 -> {
+                    var activos = servicio.getPrestamosActivos();
+                    if (activos.isEmpty()) System.out.println("No hay préstamos activos.");
+                    else activos.forEach(System.out::println);
+                }
+
                 case 0 -> System.out.println("Volviendo al menú principal...");
                 default -> System.out.println("Opción no válida");
             }
         } while (opcion != 0);
     }
+
 
     private static void crearPrestamo(PrestamoService servicio) {
         try {

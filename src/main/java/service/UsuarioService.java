@@ -15,7 +15,7 @@ public class UsuarioService {
     public void addUsuario(Usuario usuario) {
         try {
             usuarioDAO.addUsuario(usuario);
-            System.out.println("Service: Usuario añadido -> " + usuario);
+            System.out.println("Usuario añadido " + usuario);
         } catch (Exception e) {
             System.err.println("Error al añadir usuario: " + e.getMessage());
         }
@@ -42,7 +42,7 @@ public class UsuarioService {
     public void updateUsuario(Usuario usuario) {
         try {
             usuarioDAO.updateUsuario(usuario);
-            System.out.println("Service: Usuario actualizado -> " + usuario);
+            System.out.println("Usuario actualizado " + usuario);
         } catch (Exception e) {
             System.err.println("Error al actualizar usuario: " + e.getMessage());
         }
@@ -51,7 +51,7 @@ public class UsuarioService {
     public void deleteUsuario(int id) {
         try {
             usuarioDAO.deleteUsuario(id);
-            System.out.println("Service: Usuario eliminado (id=" + id + ")");
+            System.out.println("Usuario eliminado (id=" + id + ")");
         } catch (Exception e) {
             System.err.println("Error al eliminar usuario: " + e.getMessage());
         }

@@ -15,7 +15,7 @@ public class PrestamoService {
     public void addPrestamo(Prestamo prestamo) {
         try {
             prestamoDAO.addPrestamo(prestamo);
-            System.out.println("Service: Préstamo añadido -> " + prestamo);
+            System.out.println("Préstamo añadido -> " + prestamo);
         } catch (Exception e) {
             System.err.println("Error al añadir préstamo: " + e.getMessage());
         }
@@ -42,7 +42,7 @@ public class PrestamoService {
     public void updatePrestamo(Prestamo prestamo) {
         try {
             prestamoDAO.updatePrestamo(prestamo);
-            System.out.println("Service: Préstamo actualizado -> " + prestamo);
+            System.out.println("Préstamo actualizado -> " + prestamo);
         } catch (Exception e) {
             System.err.println("Error al actualizar préstamo: " + e.getMessage());
         }
@@ -51,7 +51,7 @@ public class PrestamoService {
     public void deletePrestamo(int id) {
         try {
             prestamoDAO.deletePrestamo(id);
-            System.out.println("Service: Préstamo eliminado (id=" + id + ")");
+            System.out.println("Préstamo eliminado (id=" + id + ")");
         } catch (Exception e) {
             System.err.println("Error al eliminar préstamo: " + e.getMessage());
         }
