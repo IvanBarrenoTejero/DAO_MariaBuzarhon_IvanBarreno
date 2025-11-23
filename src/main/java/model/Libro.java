@@ -20,10 +20,6 @@ public class Libro {
     public int getISBN() { return ISBN; }
     public void setISBN(int ISBN) { this.ISBN = ISBN; }
 
-    public String getAutor() { return autor; }
-    public void setAutor(String autor) { this.autor = autor; }
-
-
     @Override
     public String toString() {
         return "ID=" + id + ", Título='" + titulo + "'" +  ", ISBN='" + ISBN + "'" + ", Autor='" + autor + "'";
