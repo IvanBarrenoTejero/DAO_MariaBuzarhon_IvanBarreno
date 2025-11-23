@@ -1,72 +1,76 @@
 package dao;
 
 import model.Autor;
-
-import java.net.ConnectException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class AutorDAOImpl implements AutorDAO {
 
+    private static final String INSERTAR_AUTOR = "INSERT INTO autor(nombre) VALUES (?)";
+    private static final String BUSCAR_POR_ID = "SELECT * FROM autor WHERE id = ?";
+    private static final String LISTAR_AUTORES = "SELECT * FROM autor";
+    private static final String ACTUALIZAR_AUTOR = "UPDATE autor SET nombre = ? WHERE id = ?";
+    private static final String ELIMINAR_AUTOR = "DELETE FROM autor WHERE id = ?";
 
     @Override
-    public void insertarAutor(Autor autor) throws SQLException {
-        String SQL = "INSERT INTO Autor (nombre) VALUES (?)";
-        Connection connection = ConnectionManager.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement(SQL);
-        preparedStatement.setString(1, autor.getNombre());
-        preparedStatement.execute();
+    public void addAutor(Autor autor) throws SQLException {
+        try (Connection con = ConnectionManager.getConnection();
+             PreparedStatement ps = con.prepareStatement(INSERTAR_AUTOR, Statement.RETURN_GENERATED_KEYS)) {
+            ps.setString(1, autor.getNombre());
+            ps.executeUpdate();
+
+            try (ResultSet rs = ps.getGeneratedKeys()) {
+                if (rs.next()) {
+                    autor.setId(rs.getInt(1));
+                }
+            }
+        }
     }
 
     @Override
-    public Autor buscarPorID(int id) throws SQLException {
-        String SQL = "SELECT * FROM Autor WHERE id = ?";
-        Connection connection = ConnectionManager.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement(SQL);
-        preparedStatement.setInt(1, id);
-        ResultSet resultSet = preparedStatement.executeQuery();
-
-        if(resultSet.next()){
-            return new Autor(resultSet.getInt("id"),resultSet.getString("nombre"));
+    public Autor getAutorById(int id) throws SQLException {
+        try (Connection con = ConnectionManager.getConnection();
+             PreparedStatement ps = con.prepareStatement(BUSCAR_POR_ID)) {
+            ps.setInt(1, id);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return new Autor(rs.getInt("id"), rs.getString("nombre"));
+                }
+            }
         }
         return null;
     }
 
     @Override
-    public List<Autor> listarAutores() throws SQLException {
-        List<Autor> listaAutores = new ArrayList<>();
-        String SQL = "SELECT * FROM Autor";
-        Connection connection = ConnectionManager.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement(SQL);
-        ResultSet resultSet = preparedStatement.executeQuery();
-
-        while(resultSet.next()){
-            listaAutores.add(new Autor(resultSet.getInt("id"),resultSet.getString("nombre")));
+    public List<Autor> getAllAutores() throws SQLException {
+        List<Autor> autores = new ArrayList<>();
+        try (Connection con = ConnectionManager.getConnection();
+             PreparedStatement ps = con.prepareStatement(LISTAR_AUTORES);
+             ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                autores.add(new Autor(rs.getInt("id"), rs.getString("nombre")));
+            }
         }
-
-        return listaAutores;
+        return autores;
     }
 
     @Override
-    public void actualizarAutor(Autor autor) throws SQLException {
-        String SQL = "UPDATE Autor SET nombre = ? WHERE id = ?";
-        Connection connection = ConnectionManager.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement(SQL);
-        preparedStatement.setString(1, autor.getNombre());
-        preparedStatement.setInt(2, autor.getId());
-        preparedStatement.execute();
+    public void updateAutor(Autor autor) throws SQLException {
+        try (Connection con = ConnectionManager.getConnection();
+             PreparedStatement ps = con.prepareStatement(ACTUALIZAR_AUTOR)) {
+            ps.setString(1, autor.getNombre());
+            ps.setInt(2, autor.getId());
+            ps.executeUpdate();
+        }
     }
 
     @Override
-    public void eliminarAutor(int id) throws SQLException {
-        String SQL = "DELETE FROM Autor WHERE id = ?";
-        Connection connection = ConnectionManager.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement(SQL);
-        preparedStatement.setInt(1, id);
-        preparedStatement.execute();
+    public void deleteAutor(int id) throws SQLException {
+        try (Connection con = ConnectionManager.getConnection();
+             PreparedStatement ps = con.prepareStatement(ELIMINAR_AUTOR)) {
+            ps.setInt(1, id);
+            ps.executeUpdate();
+        }
     }
 }
