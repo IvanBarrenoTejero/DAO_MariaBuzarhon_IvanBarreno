@@ -4,7 +4,7 @@ VIDEO TUTORIAL: https://www.youtube.com/watch?v=NjY-WA-jeJ8
 DOCUMENTO COMPARTIDO GOOGLE: https://docs.google.com/document/d/1qEw6swvyt1oWJzMKTnH7JmKSBLMLOb9oMXLF9bMzw0U/edit?usp=sharing
 
 
-### **Persona 1: Gestión de Libros y Autores**
+### **María B. : Gestión de Libros y Autores**
 
 **Responsabilidades:**
 
@@ -25,7 +25,7 @@ DOCUMENTO COMPARTIDO GOOGLE: https://docs.google.com/document/d/1qEw6swvyt1oWJzM
 
 ---
 
-### **Persona 2: Gestión de Usuarios y Préstamos**
+### **Iván B. : Gestión de Usuarios y Préstamos**
 
 **Responsabilidades:**
 
