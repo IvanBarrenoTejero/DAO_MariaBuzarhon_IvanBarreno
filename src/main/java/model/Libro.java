@@ -4,7 +4,6 @@ public class Libro {
     private int id;
     private String titulo;
     private int ISBN;
-    private String autor;
 
     public Libro() {}
     public Libro(int id, String titulo,  int ISBN, String autor) {
