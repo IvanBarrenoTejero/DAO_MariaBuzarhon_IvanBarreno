@@ -16,7 +16,11 @@ public class Main {
     public static void main(String[] args) {
 
         LibroDAO libroDAO = new LibroDAOImpl();
-        BibliotecaService servicioLibros = new BibliotecaService(libroDAO);
+        LibroAutorDAO libroAutorDAO = new LibroAutorDAOImpl();
+        AutorDAO autorDAO = new AutorDAOImpl();
+
+        BibliotecaService servicioLibros = new BibliotecaService(libroDAO, libroAutorDAO, autorDAO);
+        BibliotecaService servicioAutores = new BibliotecaService(libroDAO, libroAutorDAO, autorDAO);
 
         PrestamoDAO prestamoDAO = new PrestamoDAOImpl();
         PrestamoService servicioPrestamos = new PrestamoService(prestamoDAO);
@@ -31,6 +35,7 @@ public class Main {
             System.out.println("1. Menú Libros");
             System.out.println("2. Menú Usuarios");
             System.out.println("3. Menú Préstamos");
+            System.out.println("4. Menú Autores");
             System.out.println("0. Salir");
             System.out.print("Opción: ");
             opcion = leerEntero("");
@@ -39,6 +44,7 @@ public class Main {
                 case 1 -> menuLibros(servicioLibros);
                 case 2 -> menuUsuarios(servicioUsuarios);
                 case 3 -> menuPrestamos(servicioPrestamos);
+                case 4 -> menuAutores(servicioAutores);
                 case 0 -> System.out.println("Saliendo...");
                 default -> System.out.println("Opción no válida");
             }
@@ -46,42 +52,108 @@ public class Main {
     }
 
     private static void menuLibros(BibliotecaService servicio) {
-//        int opcion;
-//        do {
-//            System.out.println("\n===== MENÚ LIBROS =====");
-//            System.out.println("1. Añadir libro");
-//            System.out.println("2. Listar libros");
-//            System.out.println("3. Modificar título");
-//            System.out.println("4. Eliminar libro");
-//            System.out.println("0. Volver");
-//            System.out.print("Opción: ");
-//            opcion = leerEntero("");
-//
-//            switch (opcion) {
-//                case 1 -> {
-//                    String titulo = leerString("Título: ");
-//                    servicio.addLibro(new Libro(0, titulo));
-//                }
-//                case 2 -> servicio.getAllLibros().forEach(System.out::println);
-//                case 3 -> {
-//                    int id = leerEntero("ID del libro: ");
-//                    String nuevo = leerString("Nuevo título: ");
-//                    Libro libro = servicio.getLibroById(id);
-//                    if (libro != null) {
-//                        libro.setTitulo(nuevo);
-//                        servicio.updateLibro(libro);
-//                    } else {
-//                        System.out.println("No se encontró el libro con id=" + id);
-//                    }
-//                }
-//                case 4 -> {
-//                    int id = leerEntero("ID del libro a eliminar: ");
-//                    servicio.deleteLibro(id);
-//                }
-//                case 0 -> System.out.println("Volviendo al menú principal...");
-//                default -> System.out.println("Opción no válida");
-//            }
-//        } while (opcion != 0);
+        int opcion;
+        do {
+            System.out.println("\n===== MENÚ LIBROS =====");
+            System.out.println("1. Añadir libro");
+            System.out.println("2. Listar libros");
+            System.out.println("3. Modificar título");
+            System.out.println("4. Eliminar libro");
+            System.out.println("5. Asociar autor a libro");
+            System.out.println("6. Listar autores de un libro");
+            System.out.println("7. Listar libros de un autor");
+            System.out.println("0. Volver");
+            System.out.print("Opción: ");
+            opcion = leerEntero("");
+
+            switch (opcion) {
+                case 1 -> {
+                    String titulo = leerString("Título: ");
+                    String isbn = leerString("ISBN: ");
+                    servicio.addLibro(new model.Libro(titulo, isbn));
+                }
+                case 2 -> {
+                    var libros = servicio.listarLibros();
+                    if (libros.isEmpty()) {
+                        System.out.println("No hay libros disponibles.");
+                    } else {
+                        for (var libro : libros) {
+                            System.out.print("ID=" + libro.getId() +
+                                    ", Título='" + libro.getTitulo() + "'" +
+                                    ", ISBN='" + libro.getIsbn() + "'");
+                            var autores = servicio.obtenerAutoresPorLibro(libro.getId());
+                            if (!autores.isEmpty()) {
+                                System.out.print(", Autores: ");
+                                for (int i = 0; i < autores.size(); i++) {
+                                    System.out.print(autores.get(i).getNombre());
+                                    if (i < autores.size() - 1) System.out.print(", ");
+                                }
+                            }
+                            System.out.println();
+                        }
+                    }
+                }
+                case 3 -> {
+                    int id = leerEntero("ID del libro: ");
+                    String nuevo = leerString("Nuevo título: ");
+                    servicio.cambiarTitulo(id, nuevo);
+                }
+                case 4 -> {
+                    int id = leerEntero("ID del libro a eliminar: ");
+                    servicio.eliminarLibro(id);
+                }
+                case 5 -> {
+                    int libroId = leerEntero("ID del libro: ");
+                    int autorId = leerEntero("ID del autor: ");
+                    servicio.agregarAutorAlLibro(libroId, autorId);
+                    System.out.println("Autor asociado al libro correctamente.");
+                }
+                case 6 -> {
+                    int libroId = leerEntero("ID del libro: ");
+                    var autores = servicio.obtenerAutoresPorLibro(libroId);
+                    if (autores.isEmpty()) System.out.println("No hay autores asociados.");
+                    else autores.forEach(System.out::println);
+                }
+                case 7 -> {
+                    int autorId = leerEntero("ID del autor: ");
+                    var libros = servicio.obtenerLibrosPorAutor(autorId);
+                    if (libros.isEmpty()) System.out.println("No hay libros asociados.");
+                    else libros.forEach(System.out::println);
+                }
+                case 0 -> System.out.println("Volviendo al menú principal...");
+                default -> System.out.println("Opción no válida");
+            }
+        } while (opcion != 0);
+    }
+    private static void menuAutores(BibliotecaService servicio) {
+        int opcion;
+        do {
+            System.out.println("\n===== MENÚ AUTORES =====");
+            System.out.println("1. Añadir autor");
+            System.out.println("2. Listar autores");
+            System.out.println("3. Eliminar autor");
+            System.out.println("0. Volver");
+            System.out.print("Opción: ");
+            opcion = leerEntero("");
+
+            switch(opcion) {
+                case 1 -> {
+                    String nombre = leerString("Nombre del autor: ");
+                    servicio.addAutor(new model.Autor(0, nombre));
+                }
+                case 2 -> {
+                    var autores = servicio.listarAutores();
+                    if (autores.isEmpty()) System.out.println("No hay autores disponibles.");
+                    else autores.forEach(System.out::println);
+                }
+                case 3 -> {
+                    int id = leerEntero("ID del autor a eliminar: ");
+                    servicio.eliminarAutor(id);
+                }
+                case 0 -> System.out.println("Volviendo al menú principal...");
+                default -> System.out.println("Opción no válida");
+            }
+        } while(opcion != 0);
     }
 
     private static void menuUsuarios(UsuarioService servicio) {
