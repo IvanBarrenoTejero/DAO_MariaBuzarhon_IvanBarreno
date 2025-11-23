@@ -20,7 +20,7 @@ public class BibliotecaService {
         this.autorDAO = autorDAO;
     }
 
-    // ---------------------- LIBROS ----------------------
+    //---LIBROS---
     public void addLibro(Libro libro) {
         try {
             libroDAO.addLibro(libro);
@@ -61,7 +61,7 @@ public class BibliotecaService {
         }
     }
 
-    // ---------------------- AUTORES ----------------------
+    //--AUTORES---
     public void addAutor(Autor autor) {
         try {
             autorDAO.addAutor(autor);
@@ -103,7 +103,7 @@ public class BibliotecaService {
         }
     }
 
-    // ---------------------- RELACIÓN LIBRO-AUTOR ----------------------
+    //---LIBRO-AUTOR---
     public void agregarAutorAlLibro(int libroId, int autorId) {
         try {
             libroAutorDAO.agregarAutorAlLibro(libroId, autorId);
